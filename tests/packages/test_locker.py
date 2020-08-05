@@ -37,7 +37,9 @@ def test_lock_file_data_is_ordered(locker, root):
     with locker.lock.open(encoding="utf-8") as f:
         content = f.read()
 
-    expected = """[[package]]
+    expected = """# @generated
+
+[[package]]
 category = "main"
 description = ""
 name = "A"
@@ -74,6 +76,8 @@ B = []
 
 def test_locker_properly_loads_extras(locker):
     content = """\
+@generated
+
 [[package]]
 category = "main"
 description = "httplib2 caching for requests"
@@ -126,7 +130,9 @@ def test_lock_packages_with_null_description(locker, root):
     with locker.lock.open(encoding="utf-8") as f:
         content = f.read()
 
-    expected = """[[package]]
+    expected = """# @generated
+
+[[package]]
 category = "main"
 description = ""
 name = "A"
@@ -155,7 +161,9 @@ def test_lock_file_should_not_have_mixed_types(locker, root):
 
     locker.set_lock_data(root, [package_a])
 
-    expected = """[[package]]
+    expected = """# @generated
+
+[[package]]
 category = "main"
 description = ""
 name = "A"
@@ -190,7 +198,9 @@ A = []
 
 
 def test_reading_lock_file_should_raise_an_error_on_invalid_data(locker):
-    content = u"""[[package]]
+    content = u"""# @generated
+
+[[package]]
 category = "main"
 description = ""
 name = "A"
@@ -232,7 +242,9 @@ def test_locking_legacy_repository_package_should_include_source_section(root, l
     with locker.lock.open(encoding="utf-8") as f:
         content = f.read()
 
-    expected = """[[package]]
+    expected = """# @generated
+
+[[package]]
 category = "main"
 description = ""
 name = "A"
@@ -260,6 +272,8 @@ def test_locker_should_emit_warnings_if_lock_version_is_newer_but_allowed(
     locker, caplog
 ):
     content = """\
+# @generated
+
 [metadata]
 content-hash = "c3d07fca33fba542ef2b2a4d75bf5b48d892d21a830e2ad9c952ba5123a52f77"
 lock-version = "{version}"
@@ -292,6 +306,8 @@ def test_locker_should_raise_an_error_if_lock_version_is_newer_and_not_allowed(
     locker, caplog
 ):
     content = """\
+# @generated
+
 [metadata]
 content-hash = "c3d07fca33fba542ef2b2a4d75bf5b48d892d21a830e2ad9c952ba5123a52f77"
 lock-version = "2.0"
@@ -316,7 +332,9 @@ def test_extras_dependencies_are_ordered(locker, root):
 
     locker.set_lock_data(root, [package_a])
 
-    expected = """[[package]]
+    expected = """# @generated
+
+[[package]]
 category = "main"
 description = ""
 name = "A"
@@ -350,6 +368,8 @@ def test_locker_should_neither_emit_warnings_nor_raise_error_for_lower_compatibl
         [str(current_version.major), str(current_version.minor - 1)]
     )
     content = """\
+# @generated
+
 [metadata]
 content-hash = "c3d07fca33fba542ef2b2a4d75bf5b48d892d21a830e2ad9c952ba5123a52f77"
 lock-version = "{version}"
