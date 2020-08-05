@@ -76,7 +76,7 @@ B = []
 
 def test_locker_properly_loads_extras(locker):
     content = """\
-@generated
+# @generated
 
 [[package]]
 category = "main"
